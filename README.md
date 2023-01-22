@@ -1,7 +1,7 @@
 # CSE220: Data Sturctures (Spring - 2022 & Fall 2022)
 
 > Solutions for the BRAC University Computer Science and Engineering Course - CSE220 Lab Assignments (Fall - 2022).   
-> All the solutions are written with [Python 3.9 ](https://www.python.org/downloads/)
+> All the solutions are written with [Python 3.9 ](https://www.python.org/downloads/) in [Jupyter Notebook](https://jupyter.org/)
 
 # Course Outline:
 
