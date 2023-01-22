@@ -1,0 +1,193 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[190]:
+
+
+#Final Draft Stack Parenthesis Balancing with Array
+
+
+class Stack:
+    
+    
+    def __init__(self):
+        self.array = [None]*10
+        self.index = 0
+        self.array_index = []
+        
+    def push(self, elem):
+        self.array[self.index] = elem
+        self.index += 1
+    
+    def pop(self):
+        temp = self.array[self.index-1]
+        self.array[self.index-1] = None
+        self.index -= 1
+        return temp
+    
+    def peek(self):
+        if self.index < 1:
+            return f'Underflow'
+        return self.array[self.index-1]
+    
+    
+stack = Stack()
+
+user_input = input()
+index = 0
+flag = False
+flag2 = False
+temp_defined = False
+for i in user_input:
+    index += 1
+    if i in "([{":
+        stack.push(i)
+        stack.array_index += [index]
+        
+    elif i in "}])":
+        if stack.peek() == 'Underflow':
+            stack.array_index += [index]
+            flag2 = True
+            temp_defined = True
+            temp = i
+            break
+            
+        value = stack.pop()
+        
+        if (i == ")" and value == "(") or (i == "]" and value == "[") or (i == "}" and value == "{"):
+            flag = True
+            stack.array_index = stack.array_index[:-1]
+        else:
+            temp_defined = True
+            temp = value
+            flag = False
+            
+if flag:
+    if stack.index == 1:
+        flag = False
+
+
+if not temp_defined:
+    temp = stack.peek()
+        
+        
+if flag:
+    print("This Expression is correct")
+else:
+    if flag2:
+        location = stack.array_index[-1]
+        temp1 = temp
+        print("This expression is not correct")
+        print("Error at character # %s. %s- not opened."%(location,temp))
+    else:
+        print("This expression is not correct")
+        location = stack.array_index[-1]
+        temp1 = temp
+        print("Error at character # %s. %s- not closed."%(location,temp1))
+
+
+
+# In[1]:
+
+
+# Final Draft Stack Parenthesis Balancing with linked list
+
+class Node:
+    
+    def __init__(self, elem):
+        self.elem = elem
+        self.next = None
+        
+        
+class Stacklinkedlist:
+    
+    def __init__(self):
+        self.head = None
+        
+        
+    def push(self, elem):
+        new_node = Node(elem)
+        if self.head is None:
+            self.head = new_node
+        else:
+            temp = self.head
+            new_node.next = temp
+            self.head = new_node
+            
+            
+    def pop(self):
+        if self.head is None:
+            return("Underflow")
+        elif self.head.next is None:
+            temp = self.head.elem
+            self.head = None
+            return temp
+        else:
+            temp = self.head.elem
+            self.head = self.head.next
+            return temp
+    
+    def peek(self):
+        if self.head is None:
+            return None
+        else:
+            return self.head.elem
+        
+        
+stack1 = Stacklinkedlist()
+stack1_index = Stacklinkedlist()
+
+flag = True
+flag2 = True
+user_input = input()
+index = 0
+flag3 = True
+flag4 = True
+
+for i in user_input:
+    index += 1
+    if i in "({[":
+        stack1.push(i)
+        stack1_index.push(index)
+        
+    elif i in "]})":
+        
+        if stack1.peek() is None:
+            index_place = stack1_index.peek()
+            if index_place is None:
+                index_place = index
+            value = i
+            flag = False
+            flag2 =  False
+            break
+
+        else:
+            value = stack1.pop()
+            flag4 = False
+        
+            if (i == ")" and value == "(") or (i == "]" and value == "[") or (i == "}" and value == "{"):
+                stack1_index.pop()
+
+            else:
+                flag = False
+            
+
+if stack1.peek() is not None:
+    if flag:
+        value = stack1.peek()
+    flag3 = False
+
+    
+if flag and flag3:
+    print("This expression is correct")
+else:
+    print("This expression is NOT correct.")
+    value1 = value
+    if not flag2:
+        print("Error at character # %s. %s- not opened"%(index_place, value1))
+    else:
+        index_place = stack1_index.pop()
+        if flag4:
+            value1 = stack1.pop()
+        print("Error at character # %s. %s- not closed"%(index_place, value1))
+

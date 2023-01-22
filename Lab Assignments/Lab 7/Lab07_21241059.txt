@@ -1,0 +1,121 @@
+#Question-1
+
+
+class KeyIndex:
+    """Class that takes an array and sorts it using key indexing
+       and a list of frequency counts"""
+
+    def __init__(self, arr):
+        self.arr = arr
+        self.negative_value = 0
+        minimum = arr[0]
+        maximum = arr[0]
+
+        # Find the max and min values
+        for i in arr[1:]:
+            if i < minimum:
+                minimum = i
+            if i > maximum:
+                maximum = i
+                
+        # If there is a negative min value, adjust accordingly
+        if minimum < 0:
+            self.negative_value = minimum * (-1)
+            
+        # Initialize an array with zeroes between min and max
+        self.list = [0] * (self.negative_value+maximum+1)
+
+        # Count the frequency of each value
+        for i in self.arr:
+            self.list[i+self.negative_value] += 1
+            
+    def sort(self):
+        """Sort the array"""
+        temp = []
+        i = 0
+
+        # Iterate through list, add elements to temp according to frequency
+        while i < len(self.list):
+            j = 1
+            while j <= self.list[i]:
+                temp.append(i-self.negative_value)
+                j += 1
+            i += 1
+            
+        print(temp)
+        return
+
+    def search(self, value):
+        """Search for a value in the array"""
+        if self.list[value+self.negative_value] >= 1:
+            return True
+        else:
+            return False
+    
+    def printList(self):
+        """Print the frequency list"""
+        print(self.list)
+
+arr = [-5,-5,1,2,5,4,6,3,10,13,11,12]
+c1 = KeyIndex(arr)
+c1.printList()
+c1.sort()
+c1.search(-4)
+
+___________________________________________________________________________________________________________________________
+
+#Question-2
+
+
+class HashTable:
+    
+    def __init__(self, arr,size=9):
+        """Initialize the hash table with a size and array of values"""
+        self.list = [0] * size
+        for value in arr:
+            self.insert_table(value)
+            
+    def hash_function(self, value):
+        """Hash function to generate index of the table"""
+        vowels = ["A", "E", "I", "O", "U"]
+        consonants = 0
+        integers = 0
+        
+        # Loop through all characters in the value
+        for i in value:
+            # If the character is uppercase
+            if 65 <= ord(i) <= 90:
+                # Check if the character is a vowel
+                if i not in vowels:
+                    # Increment the number of consonants
+                    consonants += 1
+            # If the character is a number
+            elif i.isdigit():
+                # Increment the number of integers
+                integers += int(i)
+                
+        # Generate the index using the number of consonants and integers
+        index = (consonants * 24 + integers)%9
+        return index
+                
+
+    
+    def insert_table(self, value):
+        """Insert the values into the hash table"""
+        index = self.hash_function(value)
+        # While the list at the given index is not 0
+        while self.list[index] != 0:
+            # Increment the index by 1, looping around to 0 if the index is greater than 8
+            index = (index+1) % 9
+        # Insert the value into the list at the given index
+        self.list[index] = value
+        
+        
+    def printTable(self):
+        """Print the contents of the table"""
+        print(self.list)
+
+        
+arr = ["ST1E89B8A32"]
+c2 = HashTable(arr)
+c2.printTable()
